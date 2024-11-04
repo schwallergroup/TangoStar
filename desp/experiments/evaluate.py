@@ -3,6 +3,7 @@ import networkx as nx
 import os
 import pickle
 import sys
+import time
 from networkx.algorithms.dag import dag_longest_path
 from parseargs import parse_args
 from rdkit.Chem import Descriptors, MolFromSmiles
@@ -14,6 +15,7 @@ from desp.inference.retro_predictor import RetroPredictor
 from desp.inference.syn_dist_predictor import SynDistPredictor
 from desp.inference.retro_value import ValuePredictor
 from desp.inference.forward_predictor import ForwardPredictor
+from desp.inference.tango_value import TangoValue
 
 
 def zero(smiles_1, smiles_2):
@@ -21,6 +23,7 @@ def zero(smiles_1, smiles_2):
 
 
 def predict_one(target, starting):
+
     searcher = DespSearch(
         target,
         [starting],
@@ -30,7 +33,7 @@ def predict_one(target, starting):
         strategy=args.strategy,
         heuristic_fn=value_predictor.predict,
         distance_fn=distance_fn,
-        iteration_limit=500,
+        iteration_limit=args.iteration_limit,
         top_m=25,
         top_k=2,
         max_depth_top=21,
@@ -39,7 +42,7 @@ def predict_one(target, starting):
         must_use_sm=True,
         retro_only=False if args.strategy in ["f2e", "f2f", "bi-bfs"] else True,
     )
-    print(f"Starting search towards {target} from {starting}")
+    print(f"Starting search towards {target} from {starting} using {args.iteration_limit} expansions")
     result = searcher.run_search()
     print(f"Result for {target} from {starting}: {result}")
     return target, starting, result, searcher.search_graph
@@ -69,12 +72,16 @@ if __name__ == "__main__":
         )
     else:
         fwd_predictor = None
-
+    print(f"running for iteration_limit {args.iteration_limit} on {args.test_path}")
     # Load synthetic distance and value models
     device = args.device if args.strategy == "f2f" else "cpu"
     sd_predictor = SynDistPredictor(args.sd_model, device)
     value_predictor = ValuePredictor(args.value_model)
-
+    tango_value = TangoValue()
+    if args.strategy =="retro_tango":
+        tango_value.weight = args.tango_weight
+        tango_value.radius = args.fp_radius
+        tango_value.nbits = args.fp_dim
     # Load test set
     targets = []
     with open(args.test_path, "r") as f:
@@ -94,17 +101,29 @@ if __name__ == "__main__":
     graphs = []
 
     # Construct the directory path
-    directory = os.path.join(args.test_set)
+    directory = os.path.join("/scratch/darmstro/desp_results/granularity/", args.test_set, f"{args.iteration_limit}")
     os.makedirs(directory, exist_ok=True)
-    file_path = os.path.join(directory, f"{args.strategy}")
+    file_path = os.path.join(directory, f"{args.fp_radius}_{args.fp_dim}")
+
+    strat = args.strategy
+    if strat == "retro_tango":
+        args.strategy = "retro_sd"
 
     with open(file_path + ".txt", "a") as f:
+        start_time = time.time()
         for target, starting in tqdm(targets):
+            if strat == "retro_tango":
+                tango_value.set_precursor([starting])
+                distance_fn = tango_value.predict
+            starting_search = time.time()
             target, starting, result, graph = predict_one(target, starting)
-            results.append((target, starting, result))
+            search_time = time.time() - starting_search
+            results.append((target, starting, result, search_time))
             graphs.append(graph)
-            f.write(f"('{target}', '{starting}', {result})\n")
+            f.write(f"('{target}', '{starting}', {result}, {search_time})\n")
+            print(f"('{target}', '{starting}', {result}, {search_time})")
             f.flush()
+        f.write(f"{time.time() - start_time}")
 
     # Save graphs to pickle file
     with open(file_path + ".pkl", "wb") as f:

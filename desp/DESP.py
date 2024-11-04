@@ -17,6 +17,7 @@ from desp.inference.retro_predictor import RetroPredictor
 from desp.inference.syn_dist_predictor import SynDistPredictor
 from desp.inference.retro_value import ValuePredictor
 from desp.inference.forward_predictor import ForwardPredictor
+from desp.inference.tango_value import TangoValue
 
 retro_model = "./data/model_retro.pt"
 retro_templates = "./data/idx2template_retro.json"
@@ -70,12 +71,15 @@ class DESP:
         # Load synthetic distance and value models
         self.device = device if self.strategy == "f2f" else "cpu"
         self.sd_predictor = SynDistPredictor(sd_model, self.device)
+        self.tango_predictor = TangoValue()
         self.value_predictor = ValuePredictor(value_model)
 
         if self.strategy == "f2f":
             self.distance_fn = self.sd_predictor.predict_batch
         elif self.strategy in ["f2e", "retro_sd"]:
             self.distance_fn = self.sd_predictor.predict
+        elif self.strategy in ["retro_tango"]:
+            self.distance_fn = self.tango_predictor
         else:
             self.distance_fn = zero
 
@@ -112,6 +116,7 @@ class DESP:
                 - bool: True if a solution was found, False otherwise.
                 - dict or None: The synthetic route as a dictionary if a solution was found, None otherwise.
         """
+        self.distance_fn.set_precursor(starting[0])
         searcher = DespSearch(
             target,
             starting,

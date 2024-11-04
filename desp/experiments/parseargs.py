@@ -10,7 +10,7 @@ def parse_args():
         "--strategy",
         type=str,
         default="f2e",
-        choices=["f2e", "f2f", "retro", "retro_sd", "random", "bfs", "bi-bfs"],
+        choices=["f2e", "f2f", "retro", "retro_sd", "retro_tango", "random", "bfs", "bi-bfs"],
         help="Strategy for predict_one() function",
     )
     parser.add_argument(
@@ -46,8 +46,31 @@ def parse_args():
     parser.add_argument(
         "--sd_model", type=str, help="Path to the synthetic distance model"
     )
-    parser.add_argument("--value_model", type=str, help="Path to the value model")
-    parser.add_argument("--device", type=int, help="Device to load index and models to")
+    parser.add_argument(
+        "--value_model", type=str, help="Path to the value model"
+        )
+    parser.add_argument(
+        "--device", type=int, help="Device to load index and models to"
+        )
+    parser.add_argument(
+        "--tango_weight", type=float, help="tango weight, ranges between 20-30 work well"
+        )
+    parser.add_argument(
+        "--iteration_limit", type=int, help="number of expansions"
+        )
+    parser.add_argument(
+        "--tanimoto_weight", type=float, help="Weight of Tanimoto Similarity in the Tango reward, bounded between 0 and 1"
+        )
+    parser.add_argument(
+        "--mcs_weight", type=float, help="Weight of maximum common substructure in the Tango Reward"
+        )
+    parser.add_argument(
+        "--fp_radius", type=int, help="Tango Morgan fingerprint radius"
+    )
+    parser.add_argument(
+        "--fp_dim", type=int, help="Tango Morgan fingerprint dim"
+    )
+
 
     args = parser.parse_args()
     return args

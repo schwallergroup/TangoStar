@@ -1,4 +1,4 @@
-name: desp
+name: desp2
 channels:
   - pytorch
   - nvidia
