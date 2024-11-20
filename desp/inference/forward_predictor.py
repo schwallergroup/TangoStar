@@ -2,6 +2,9 @@ import json
 import torch
 import torch.nn.functional as F
 import numpy as np
+import psutil
+import os
+
 from rdchiral.initialization import rdchiralReactants
 from desp.inference.building_block_predictor import BuildingBlockPredictor
 from desp.inference.utils import (
@@ -28,6 +31,7 @@ class ForwardPredictor:
         bb_tensor_path,
         bb_mol2idx,
         device="cpu",
+        log_file_path="",
     ):
         """
         Args:
@@ -43,21 +47,23 @@ class ForwardPredictor:
         # Load the forward templates
         with open(templates_path, "r") as f:
             template_dict = json.load(f)
+
         self.templates = {}
         for k, v in template_dict.items():
             self.templates[int(k)] = v
 
         # Load the forward model
         fwd_checkpoint = torch.load(forward_model_path, map_location="cpu")
+
         pretrain_args = fwd_checkpoint["args"]
         pretrain_args.model_type = "templ_rel"
         pretrain_args.output_dim = len(self.templates)
         self.forward_model = FwdTemplRel(pretrain_args)
+
         state_dict = fwd_checkpoint["state_dict"]
         state_dict = {k.replace("module.", ""): v for k, v in state_dict.items()}
         self.forward_model.load_state_dict(state_dict)
         self.forward_model.eval()
-        print("Loaded forward model!")
 
         # Initialize the building block predictor
         self.bb_predictor = BuildingBlockPredictor(

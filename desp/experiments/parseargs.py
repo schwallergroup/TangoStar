@@ -10,7 +10,7 @@ def parse_args():
         "--strategy",
         type=str,
         default="f2e",
-        choices=["f2e", "f2f", "retro", "retro_sd", "retro_tango", "random", "bfs", "bi-bfs"],
+        choices=["f2e", "f2f", "retro", "retro_sd", "retro_tango", "random", "bfs", "bi-bfs" , "f2f_tango", "f2e_tango"],
         help="Strategy for predict_one() function",
     )
     parser.add_argument(
@@ -21,6 +21,7 @@ def parse_args():
             "pistachio_reachable",
             "pistachio_hard",
             "uspto_190",
+            "who",
         ],
         help="Test set to use",
     )
@@ -50,7 +51,7 @@ def parse_args():
         "--value_model", type=str, help="Path to the value model"
         )
     parser.add_argument(
-        "--device", type=int, help="Device to load index and models to"
+        "--device", type=str, help="Device to load index and models to"
         )
     parser.add_argument(
         "--tango_weight", type=float, help="tango weight, ranges between 20-30 work well"
@@ -65,12 +66,8 @@ def parse_args():
         "--mcs_weight", type=float, help="Weight of maximum common substructure in the Tango Reward"
         )
     parser.add_argument(
-        "--fp_radius", type=int, help="Tango Morgan fingerprint radius"
+        "--task_id" , type=int, help="Task id"
     )
-    parser.add_argument(
-        "--fp_dim", type=int, help="Tango Morgan fingerprint dim"
-    )
-
 
     args = parser.parse_args()
     return args

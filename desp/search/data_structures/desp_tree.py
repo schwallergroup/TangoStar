@@ -150,7 +150,7 @@ class DespTree:
         if len(starts) == 0 or len(targets) == 0:
             return updated_bot
         dists = self.distance_fn(
-            [node.fp for node in starts], [node.fp for node in targets]
+            [node.smiles for node in starts], [node.smiles for node in targets]
         )
         closest_indices_bot = torch.argmin(dists, axis=1)
         best_values_bot = dists[torch.arange(dists.shape[0]), closest_indices_bot]
@@ -249,7 +249,7 @@ class DespTree:
         if len(starts) == 0 or len(targets) == 0:
             return updated_top
         dists = self.distance_fn(
-            [node.fp for node in starts], [node.fp for node in targets]
+            [node.smiles for node in starts], [node.smiles for node in targets]
         )
         closest_indices_bot = torch.argmin(dists, axis=1)
         best_values_bot = dists[torch.arange(dists.shape[0]), closest_indices_bot]

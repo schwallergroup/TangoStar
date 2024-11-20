@@ -1,8 +1,7 @@
 from rdkit import Chem
 import math
+import heapq
 from desp.inference.utils import smiles_to_fp
-
-
 def zero(smiles_1, smiles_2):
     return 0
 
@@ -63,7 +62,7 @@ class BottomUpMolNode(MolNode):
         elif is_building_block:
             self.is_expanded = True
         if strategy == "f2f":
-            self.fp = smiles_to_fp(self.smiles, fp_size=512).to("cuda:0")
+            self.fp = smiles_to_fp(self.smiles, fp_size=512)
         else:
             self.closest_node = target
 
@@ -89,12 +88,12 @@ class TopDownMolNode(MolNode):
         heuristic_fn=zero_single,
         distance_fn=zero,
         root=False,
+        k = 3
     ):
         super().__init__(smiles)
         self.inherently_solved = not root and self.smiles in building_blocks
         self.desp_solved = False
         self.met = False
-
         self.depth = depth
         if self.inherently_solved:
             self.reaction_number_estimate = 0
@@ -102,16 +101,16 @@ class TopDownMolNode(MolNode):
         else:
             self.reaction_number_estimate = heuristic_fn(self.smiles)
             if starting_materials != [] and strategy in ["f2e", "retro_sd", "retro_tango"]:
-                closest_distance = min(
-                    [distance_fn(sm, self.smiles) for sm in starting_materials]
-                )
+                distances = [distance_fn(sm, self.smiles) for sm in starting_materials]
+                closest_distance = min(distances)
                 self.distance_number_estimate = (
                     closest_distance - self.reaction_number_estimate
                 )
             else:
                 self.distance_number_estimate = 0
+            self.distance_number_estimate = self.reaction_number_estimate
         if strategy == "f2f":
-            self.fp = smiles_to_fp(self.smiles, fp_size=512).to("cuda:0")
+            self.fp = smiles_to_fp(self.smiles, fp_size=512)
 
 
 class TopDownRxnNode(RxnNode):
