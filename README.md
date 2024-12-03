@@ -62,13 +62,12 @@ We thank the developers of [DESP]{https://github.com/coleygroup/desp, https://ar
 ## Citation
 
 ```bibtex
-@misc{yu2024doubleendedsynthesisplanninggoalconstrained,
-      title={Double-Ended Synthesis Planning with Goal-Constrained Bidirectional Search}, 
-      author={Kevin Yu and Jihye Roh and Ziang Li and Wenhao Gao and Runzhong Wang and Connor W. Coley},
-      year={2024},
-      eprint={2407.06334},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2407.06334}, 
+@inproceedings{
+armstrong2024tango,
+title={Tango*: Constrained synthesis planning using chemically informed value functions},
+author={Daniel P Armstrong, Zlatko Jončev, Jeff Guo, Philippe Schwaller},
+booktitle={ELLIS ML for Molecules and Materials in the Era of LLMs Workshop},
+year={2024},
+url={https://openreview.net/forum?id=cRT95W6AZa}
 }
 ```
