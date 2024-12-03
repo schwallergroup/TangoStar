@@ -11,7 +11,7 @@ To reproduce our experimental results or to try Tango* with DESP's pretrained mo
 
 #### 1. Environment Setup
 
-DESP requires a GPU to run at a practical speed. Ensure that the `pytorch-cuda` dependency is compatible with the version of CUDA on your machine. To check, run the following command and look for the `CUDA Version`.
+DESP requires a GPU to run at a practical speed. Ensure that the `pytorch-cuda` dependency is compatible with the version of CUDA on your machine. To check, run the following command and look for the `CUDA Version`. For those who want to use the Tango* algorithm only, reasonable speed can be achieved on a machine wihtout GPU.
 ```bash
 $ nvidia-smi
 ```
