@@ -1,4 +1,4 @@
-<img align="center" src="tango.svg" width="350px" />
+<img align="center" src="tangosmall.svg" width="350px" />
 
 **Tango*: Constrained synthesis planning using chemically informed value functions**\
 _Daniel Armstrong. Zlatko Jončev, Jeff Guo, Philippe Schwaller_
