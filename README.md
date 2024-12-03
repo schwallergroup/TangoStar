@@ -1,15 +1,13 @@
 <img align="center" src="DESP.png" width="350px" />
 
-**Double-Ended Synthesis Planning with Goal-Constrained Bidirectional Search**\
-_Kevin Yu, Jihye Roh, Ziang Li, Wenhao Gao, Runzhong Wang, Connor W. Coley_
+**Tango*: Constrained synthesis planning using chemically informed value functions**\
+_Daniel Armstrong. Zlatko Jončev, Jeff Guo, Philippe Schwaller_
 
-This repo contains code for DESP (Double-Ended Synthesis Planning), which applies goal-constrained bidirectional search to computer-aided synthesis planning. DESP is designed to propose a synthesis plan towards a given target molecule under the user-specified constraint of using one or more specific starting materials. Read more about the algorithm in [our preprint](https://arxiv.org/abs/2407.06334).
-
-**Update (September 2024)**: We are happy to announce that DESP was accepted into NeurIPS 2024 as a Spotlight paper!
+This repo contains code for Tango*, a retrosynthesis framework for starting material constrained synthesis planning. We base our code off the DESP codebase [https://github.com/coleygroup/desp], adding a new node reward class, tango_value. 
 
 ## Quick Start
 
-To reproduce our experimental results or to try DESP with our pretrained models, perform the following steps after cloning this repository.
+To reproduce our experimental results or to try Tango* with DESP's pretrained models, perform the following steps after cloning this repository.
 
 #### 1. Environment Setup
 
@@ -52,37 +50,6 @@ $ sh evaluate.sh [pistachio_reachable|pistachio_hard|uspto_190] [f2e|f2f|retro|r
 ```
 A GPU is required for DESP-F2E or DESP-F2F. Specify the device in the evaluation script and ensure that your GPU has enough memory to load the building block index (around 3 GB). Additional memory is required for DESP-F2F due to batch inference of the synthetic distance predictions. The forward prediction module takes a few minutes to initialize as it loads the index into memory.
 
-#### 4. Run DESP on your own targets and starting materials
-
-To run DESP on your own specified targets and starting materials, navigate to the `/desp/` directory. In a Python environment (IPython notebook, Python shell, Python script), initialize and invoke DESP with default parameters as follows:
-```Python
-from DESP import DESP
-
-desp = DESP(strategy='f2e')                 # switch to 'f2f' if you want to try F2F
-result, route = desp.search(
-    'COC(=O)CC12CCC(c3ccc(Br)cc3)(CC1)CO2', # Target SMILES
-    ['COC(=O)C1(c2ccc(Br)cc2)CCC(=O)CC1']   # List of starting materials SMILES
-)
-```
-The following keyword arguments are currently supported for the search API:
-- `iteration_limit`: Maximum number of expansions for the search algorithm. Default: `500`
-- `top_n`: Number of retro templates to consider for retro model. Default: `50`
-- `top_m`: Number of forward templates to consider for forward template model. Default: `25`
-- `top_k`: Number of building blocks to consider in k-NN search. Default: `2`
-- `max_depth_top`: Maximum depth (including reaction nodes) for top-down search. Default: `21`
-- `max_depth_bot`: Maximum depth (including reactoin nodes) for bottom-up search. Default: `11`
-- `must_use_sm`: Flag to enforce the starting material constraint. Default: `True`
-
-If DESP is able to find a route for the given inputs, the route can be visualized by running:
-```Python
-desp.visualize_route(route, 'route')
-```
-This will save a DOT file `/desp/route` and image file `/desp/route.png` to the directory which visualizes the solved route. To view the image directly in a IPython notebook, you can run, for example:
-```Python
-from IPython.display import Image
-
-Image("route.png", width=300)
-```
 
 ## Processing and Training from Scratch
 
@@ -90,7 +57,7 @@ See the guide at `/processing/README.md`.
 
 ## Acknowledgements
 
-We thank the developers of [ASKCOS](https://gitlab.com/mlpds_mit/askcosv2/) and [Syntheseus](https://github.com/microsoft/syntheseus/) for releasing open source implementations of CASP algorithms that were referenced or adapted for this work.
+We thank the developers of [DESP]{https://github.com/coleygroup/desp, https://arxiv.org/abs/2407.06334} for releasing open source versions of their code for easy adaptation.
 
 ## Citation
 
