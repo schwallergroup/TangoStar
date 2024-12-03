@@ -57,7 +57,7 @@ See the guide at `/processing/README.md`.
 
 ## Acknowledgements
 
-We thank the developers of [DESP]{https://github.com/coleygroup/desp, https://arxiv.org/abs/2407.06334} for releasing open source versions of their code for easy adaptation.
+We thank the developers of [DESP]{https://github.com/coleygroup/desp, https://arxiv.org/abs/2407.06334} for releasing open source versions of their code for easy adaptation. If you find this code useful, please remember to also cite the DESP paper or repository.
 
 ## Citation
 
