@@ -11,7 +11,7 @@ To reproduce our experimental results or to try Tango* with DESP's pretrained mo
 
 #### 1. Environment Setup
 
-DESP requires a GPU to run at a practical speed. Ensure that the `pytorch-cuda` dependency is compatible with the version of CUDA on your machine. To check, run the following command and look for the `CUDA Version`. For those who want to use the Tango* algorithm only, reasonable speed can be achieved on a machine wihtout GPU.
+For those who want to use the Tango* algorithm only, reasonable speed can be achieved on machines without a GPU. DESP requires a GPU to run at a practical speed. Ensure that the `pytorch-cuda` dependency is compatible with the version of CUDA on your machine. To check, run the following command and look for the `CUDA Version`.
 ```bash
 $ nvidia-smi
 ```
@@ -44,9 +44,9 @@ Download the pre-trained model weights [at this link](https://figshare.com/artic
 
 #### 3. Run experiments
 
-To reproduce the experiments, navigate to the directory `/desp/experiments/` and run the evaluation script. The first argument refers the benchmark set to use, while the second argument refers to the method to use. The results of the experiments will be saved in `/desp/experiments/<benchmark_set>/<method>.txt`, along with a corresponding `.pkl` file containing the full search graphs of each search.
+To reproduce the experiments, navigate to the directory `/desp/experiments/` and run the evaluation script. The first argument refers the benchmark set to use, while the second argument refers to the method to use. The results of the experiments will be saved in `/desp/experiments/<benchmark_set>/<method>.txt`, along with a corresponding `.pkl` file containing the full search graphs of each search. Iteration limit should be an integer, typically ranging from 50-500. Values for Tango weight should be a floating point, while Tanimoto and MCS weight should be a floating point between 0.0 and 1.0.
 ```bash
-$ sh evaluate.sh [pistachio_reachable|pistachio_hard|uspto_190] [f2e|f2f|retro|retro_sd|random|bfs]
+$ sh evaluate.sh [pistachio_reachable|pistachio_hard|uspto_190] [f2e|f2f|retro|retro_sd|random|bfs|retro_tango] [iteration_limit] [tango_weight] [tanimoto_weight] [mcs_weight]
 ```
 A GPU is required for DESP-F2E or DESP-F2F. Specify the device in the evaluation script and ensure that your GPU has enough memory to load the building block index (around 3 GB). Additional memory is required for DESP-F2F due to batch inference of the synthetic distance predictions. The forward prediction module takes a few minutes to initialize as it loads the index into memory.
 
