@@ -29,7 +29,6 @@ We have provided a setup_data.sh file in the main directory. Run it to download 
 sh setup_data.sh
 ```
 
-If the download fails, the link below or the original DESP repository can be used to access the data. [DESP]{https://github.com/coleygroup/desp}
 Download the pre-trained model weights [at this link](https://figshare.com/articles/preprint/25956076). Unzip the contents of `desp_data.zip` into `/desp/data/`. 
 
 <details>
