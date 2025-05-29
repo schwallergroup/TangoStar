@@ -28,6 +28,7 @@ We have provided a setup_data.sh file in the main directory. Run it to download 
 ```bash
 sh setup_data.sh
 ```
+Once you have executed the above script skip straight to Section 3.
 
 Download the pre-trained model weights [at this link](https://figshare.com/articles/preprint/25956076). Unzip the contents of `desp_data.zip` into `/desp/data/`. 
 
