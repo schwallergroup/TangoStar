@@ -16,6 +16,7 @@ dependencies:
   - pandas
   - tqdm
   - faiss-gpu
+  - psutils
   - pip:
     - rdkit
     - rdchiral

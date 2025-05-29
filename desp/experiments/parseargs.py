@@ -65,9 +65,6 @@ def parse_args():
     parser.add_argument(
         "--mcs_weight", type=float, help="Weight of maximum common substructure in the Tango Reward"
         )
-    parser.add_argument(
-        "--task_id" , type=int, help="Task id"
-    )
 
     args = parser.parse_args()
     return args

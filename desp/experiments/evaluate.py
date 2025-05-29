@@ -36,11 +36,11 @@ def predict_one(target, starting):
         distance_fn=distance_fn,
         iteration_limit=args.iteration_limit,
         top_m=25,
-        top_k=1,
+        top_k=10,
         max_depth_top=21,
         max_depth_bot=11,
         stop_on_first_solution=True,
-        must_use_sm=False,
+        must_use_sm=True,
         retro_only=False if args.strategy in ["f2e", "f2f", "bi-bfs"] else True,
     )
     print(f"Starting search towards {target} from {starting} using {args.iteration_limit} expansions")
@@ -82,22 +82,17 @@ if __name__ == "__main__":
 
     if args.strategy in ["retro_tango", "f2f_tango" ,"f2e_tango"]:
         tango_value.weight = args.tango_weight
-        tango_value.mcs_weight = args.mcs_weight
+        tango_value.mcs_weight = 1 - args.tanimoto_weight
         tango_value.tanimoto_weight = args.tanimoto_weight
     # Load test set
     targets = []
     with open(args.test_path, "r") as f:
-        if "who" in args.test_path:
-            line = ast.literal_eval(f.readline())
-            targ = line[0][0]
-            sm = line[1]
-            if targ in building_blocks:
-                del building_blocks[targ]
-            # sm = [s for s in sm if len(s) > 10]
-            building_blocks = {s : idx for idx, s in enumerate(sm)}
-            targets.append((targ, sm))
+        for line in f:
+            target = eval(line)
+            targ = (target[0], [target[1]])
+            targets.append(targ)
             
-
+    
 
     if args.strategy == "f2f":
         distance_fn = sd_predictor.predict_batch
@@ -110,9 +105,9 @@ if __name__ == "__main__":
     graphs = []
 
     # Construct the directory path
-    directory = os.path.join("/your/dir/", args.test_set)
+    directory = os.path.join("../data/desp_results/", args.test_set)
     os.makedirs(directory, exist_ok=True)
-    file_path = os.path.join(directory, f"tango")
+    file_path = os.path.join(directory, f"{args.strategy}_{args.iteration_limit}")
 
     strat = args.strategy
     if strat == "retro_tango":
@@ -139,6 +134,6 @@ if __name__ == "__main__":
             print(f"('{target}', {result}, {search_time})\n")
             f.flush()
 
-    # Save graphs to pickle file
+
     with open(file_path+ "tango" + ".pkl", "wb") as f2:
         pickle.dump(graphs, f2)
