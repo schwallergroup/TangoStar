@@ -19,5 +19,5 @@ dependencies:
   - pip:
     - rdkit
     - rdchiral
-    - psutils
+    - psutil
     - torch<=2.6
