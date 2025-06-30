@@ -46,7 +46,7 @@ def predict_one(target, starting):
     print(f"Starting search towards {target} from {starting} using {args.iteration_limit} expansions")
     result = searcher.run_search()
     print(f"Result for {target} from {starting}: {result}")
-    return target, starting, result, searcher.search_graph
+    return result, searcher.search_graph, searcher.search_graph.target_node
 
 
 if __name__ == "__main__":
@@ -126,7 +126,7 @@ if __name__ == "__main__":
                 distance_fn = tango_value.predict_batch
 
             starting_search = time.time()
-            target, starting, result, graph = predict_one(target, starting)
+            result, graph, target_node = predict_one(target, starting)
             search_time = time.time() - starting_search
             results.append((target, starting, result, search_time))
             graphs.append(graph)

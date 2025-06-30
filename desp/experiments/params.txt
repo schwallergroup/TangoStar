@@ -7,6 +7,12 @@ pistachio_hard retro_sd 500 25 0.7 0.3
 pistachio_hard retro_tango 100 25 0.7 0.3
 pistachio_hard retro_tango 300 25 0.7 0.3
 pistachio_hard retro_tango 500 25 0.7 0.3
+pistachio_hard f2e_tango 100 25 0.7 0.3
+pistachio_hard f2e_tango 300 25 0.7 0.3
+pistachio_hard f2e_tango 500 25 0.7 0.3
+pistachio_hard f2f_tango 100 25 0.7 0.3
+pistachio_hard f2f_tango 300 25 0.7 0.3
+pistachio_hard f2f_tango 500 25 0.7 0.3
 pistachio_reachable retro 100 25 0.7 0.3
 pistachio_reachable retro 300 25 0.7 0.3
 pistachio_reachable retro 500 25 0.7 0.3
@@ -16,6 +22,12 @@ pistachio_reachable retro_sd 500 25 0.7 0.3
 pistachio_reachable retro_tango 100 25 0.7 0.3
 pistachio_reachable retro_tango 300 25 0.7 0.3
 pistachio_reachable retro_tango 500 25 0.7 0.3
+pistachio_reachable f2e_tango 100 25 0.7 0.3
+pistachio_reachable f2e_tango 300 25 0.7 0.3
+pistachio_reachable f2e_tango 500 25 0.7 0.3
+pistachio_reachable f2f_tango 100 25 0.7 0.3
+pistachio_reachable f2f_tango 300 25 0.7 0.3
+pistachio_reachable f2f_tango 500 25 0.7 0.3
 uspto_190 retro 100 25 0.7 0.3
 uspto_190 retro 300 25 0.7 0.3
 uspto_190 retro 500 25 0.7 0.3
@@ -25,3 +37,9 @@ uspto_190 retro_sd 500 25 0.7 0.3
 uspto_190 retro_tango 100 25 0.7 0.3
 uspto_190 retro_tango 300 25 0.7 0.3
 uspto_190 retro_tango 500 25 0.7 0.3
+uspto_190 f2e_tango 100 25 0.7 0.3
+uspto_190 f2e_tango 300 25 0.7 0.3
+uspto_190 f2e_tango 500 25 0.7 0.3
+uspto_190 f2f_tango 100 25 0.7 0.3
+uspto_190 f2f_tango 300 25 0.7 0.3
+uspto_190 f2f_tango 500 25 0.7 0.3

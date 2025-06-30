@@ -1,4 +1,4 @@
-name: desp2
+name: TangoStar
 channels:
   - pytorch
   - nvidia
@@ -6,9 +6,9 @@ channels:
   - defaults
 dependencies:
   - python>=3.8
-  - pytorch
+  - pip
   - pytorch-cuda
-  - cuda-toolkit
+  # - cuda-toolkit
   - networkx
   - python-graphviz
   - numpy
@@ -16,8 +16,8 @@ dependencies:
   - pandas
   - tqdm
   - faiss-gpu
-  - psutils
   - pip:
     - rdkit
     - rdchiral
     - psutils
+    - torch<=2.6
