@@ -110,7 +110,7 @@ if __name__ == "__main__":
     # Construct the directory path
     directory = os.path.join("../data/desp_results/", args.test_set)
     os.makedirs(directory, exist_ok=True)
-    file_path = os.path.join(directory, f"test_{args.strategy}_{args.iteration_limit}")
+    file_path = os.path.join(directory, f"{args.strategy}_{args.iteration_limit}")
 
     strat = args.strategy
     if strat == "retro_tango":
