@@ -27,6 +27,7 @@ pip install -r gpu_requirements.txt --extra-index-url https://download.pytorch.o
 # Or to install without gpu
 pip install torch==2.5.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
 pip install -r cpu_requirements.txt
+conda install typing_extensions networkx -y
 ```
 
 #### 2. Data and model installation
