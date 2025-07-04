@@ -11,14 +11,17 @@ To reproduce our experimental results or to try Tango* with DESP's pretrained mo
 
 #### 1. Environment Setup
 
-For those who want to use the Tango* algorithm only, reasonable speed can be achieved on machines without a GPU. DESP requires a GPU to run at a practical speed. Ensure that the `pytorch-cuda` dependency is compatible with the version of CUDA on your machine. To check, run the following command and look for the `CUDA Version`.
+For those who want to use the Tango* algorithm only, reasonable speed can be achieved on machines without a GPU. The bi-directional search requires a GPU to run at a practical speed. Cheack the version of CUDA you have using the following command/
 ```bash
 $ nvidia-smi
 ```
 
 Now, create the `desp` conda environment from the project directory:
 ```bash
-$ conda env create -f environment.yml
+conda create -n tangostar python=3.12
+conda activate tangostar
+
+pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu121
 ```
 
 #### 2. Data and model installation
