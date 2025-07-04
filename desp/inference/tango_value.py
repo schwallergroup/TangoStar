@@ -13,8 +13,8 @@ class TangoValue():
         self.tanimoto_weight = tanimoto_weight
         self.mcs_weight = mcs_weight
         if root_smiles is not None:
-            root_mol = Chem.MolFromSmiles(root_smiles)
-            self.root_fp = GetMorganFingerprintAsBitVect(root_mol, radius=3, nBits=2048)
+            self.root_mol = Chem.MolFromSmiles(root_smiles)
+            self.root_fp = GetMorganFingerprintAsBitVect(self.root_mol, radius=3, nBits=2048)
         else:
             self.root_fp = None  # Handle the case where root_fp is not provided
 
@@ -29,7 +29,7 @@ class TangoValue():
         Returns:
             float: Weighted Tanimoto similarity score.
         """
-        return self.tanimoto_weight * TanimotoSimilarity(query_fp, precursor_fp)
+        return self.tanimoto_weight * (1 - TanimotoSimilarity(query_fp, precursor_fp))
     
     def mcs(self, query_mol, precursor_mol):
         """
@@ -51,7 +51,7 @@ class TangoValue():
             completeRingsOnly=True
         )
         # Compute the weighted MCS score based on the fraction of matching atoms
-        return self.mcs_weight * max(0, (mcs_result.numAtoms / precursor_mol.GetNumAtoms()))
+        return  self.mcs_weight * (1 - max(0, (mcs_result.numAtoms / precursor_mol.GetNumAtoms())))
 
     def dissimilar_pred(self,query):
         """
@@ -72,7 +72,8 @@ class TangoValue():
         query_fp = GetMorganFingerprintAsBitVect(query_mol, radius=3, nBits=2048)
         # Compute the dissimilarity score using the Tanimoto similarity to the root fingerprint
         return self.weight * (
-            self.tanimoto(query_fp, self.root_fp)
+            self.tanimoto(query_fp, self.root_fp)  \
+            + self.mcs(query_mol, self.root_mol)
         )
     
     def predict(self, sm, query):
@@ -96,7 +97,7 @@ class TangoValue():
         
         # Compute the weighted Tanimoto similarity between the query and precursor fingerprints
         return self.weight * (
-            self.tanimoto(query_fp, sm_fp)
+            self.tanimoto(query_fp, sm_fp) + self.mcs(query_mol, sm_mol)
         )
 
     

@@ -7,6 +7,7 @@ import time
 from networkx.algorithms.dag import dag_longest_path
 from parseargs import parse_args
 from rdkit.Chem import Descriptors, MolFromSmiles
+from rdkit import Chem
 from tqdm import tqdm
 import ast
 
@@ -78,9 +79,11 @@ if __name__ == "__main__":
     device = args.device if args.strategy == "f2f" else "cpu"
     sd_predictor = SynDistPredictor(args.sd_model, device)
     value_predictor = ValuePredictor(args.value_model)
-    tango_value = TangoValue(args.tango_weight)
+    
+
 
     if args.strategy in ["retro_tango", "f2f_tango" ,"f2e_tango"]:
+        tango_value = TangoValue()
         tango_value.weight = args.tango_weight
         tango_value.mcs_weight = 1 - args.tanimoto_weight
         tango_value.tanimoto_weight = args.tanimoto_weight
@@ -107,7 +110,7 @@ if __name__ == "__main__":
     # Construct the directory path
     directory = os.path.join("../data/desp_results/", args.test_set)
     os.makedirs(directory, exist_ok=True)
-    file_path = os.path.join(directory, f"{args.strategy}_{args.iteration_limit}")
+    file_path = os.path.join(directory, f"test_{args.strategy}_{args.iteration_limit}")
 
     strat = args.strategy
     if strat == "retro_tango":
@@ -124,7 +127,6 @@ if __name__ == "__main__":
                 distance_fn = tango_value.predict
             if strat in ["f2f_tango"]:
                 distance_fn = tango_value.predict_batch
-
             starting_search = time.time()
             result, graph, target_node = predict_one(target, starting)
             search_time = time.time() - starting_search
@@ -133,6 +135,23 @@ if __name__ == "__main__":
             f.write(f"('{target}', {result}, {search_time})\n")
             print(f"('{target}', {result}, {search_time})\n")
             f.flush()
+        # result is a tuple (True, Expansions) and it is the third element of each item in results
+        # I want to average the expansions and count the number of true / true + false
+        end_time = time.time()
+        average_expansions = sum(res[2][1] for res in results) / len(results)
+        solve_rate = sum(1 for res in results if res[2][0]) / len(results)
+        average_time = (end_time - start_time) / len(results)
+
+        results_df = {
+            "average_expansions": average_expansions,
+            "solve_rate": solve_rate,
+            "total_time": end_time - start_time,
+            "average_time_per_target": average_time,
+            "key": args.test_set + "_" + strat + "_" + str(args.iteration_limit),
+        }
+        
+    with open(file_path + ".json", "w") as f:
+        json.dump(results_df, f, indent=4)
 
 
     with open(file_path+ "tango" + ".pkl", "wb") as f2:

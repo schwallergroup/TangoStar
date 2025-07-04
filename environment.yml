@@ -1,4 +1,4 @@
-name: TangoStar
+name: tangostar
 channels:
   - pytorch
   - nvidia
@@ -6,9 +6,9 @@ channels:
   - defaults
 dependencies:
   - python>=3.8
-  - pip
-  - pytorch-cuda
-  # - cuda-toolkit
+  - pytorch=2.5.0
+  - pytorch-cuda=12.1
+  - cuda-toolkit
   - networkx
   - python-graphviz
   - numpy
@@ -20,4 +20,3 @@ dependencies:
     - rdkit
     - rdchiral
     - psutil
-    - torch<=2.6

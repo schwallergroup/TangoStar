@@ -29,6 +29,7 @@ export BB_TENSOR="../data/building_block_fps.npz"
 export SD_MODEL="../data/syn_dist.pt"
 export VALUE_MODEL="../data/retro_value.pt"
 export DEVICE=0
+
 python3 evaluate.py \
 --test_set "$1" \
 --strategy "$2" \

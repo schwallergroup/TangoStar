@@ -101,14 +101,12 @@ class TopDownMolNode(MolNode):
         else:
             self.reaction_number_estimate = heuristic_fn(self.smiles)
             if starting_materials != [] and strategy in ["f2e", "retro_sd", "retro_tango"]:
-                distances = [distance_fn(sm, self.smiles) for sm in starting_materials]
-                closest_distance = min(distances)
+                closest_distance = min([distance_fn(sm, self.smiles) for sm in starting_materials])
                 self.distance_number_estimate = (
                     closest_distance - self.reaction_number_estimate
                 )
             else:
                 self.distance_number_estimate = 0
-            self.distance_number_estimate = self.reaction_number_estimate
         if strategy == "f2f":
             self.fp = smiles_to_fp(self.smiles, fp_size=512)
 
