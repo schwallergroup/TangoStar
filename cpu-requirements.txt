@@ -1,0 +1,10 @@
+networkx
+graphviz
+numpy
+scipy
+pandas
+tqdm
+faiss-cpu
+rdkit
+rdchiral
+psutil

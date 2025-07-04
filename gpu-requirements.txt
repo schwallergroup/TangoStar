@@ -1,0 +1,11 @@
+torch==2.5.0
+networkx
+graphviz
+numpy
+scipy
+pandas
+tqdm
+faiss-gpu-cu12
+rdkit
+rdchiral
+psutil
