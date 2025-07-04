@@ -21,7 +21,11 @@ Now, create the `desp` conda environment from the project directory:
 conda create -n tangostar python=3.12
 conda activate tangostar
 
-pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu121
+# You need to adapt the following to your CUDA version
+pip install -r gpu_requirements.txt --extra-index-url https://download.pytorch.org/whl/cu121
+
+# Or to install without gpu
+pip install -r cpu_requirements.txt
 ```
 
 #### 2. Data and model installation
