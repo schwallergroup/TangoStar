@@ -25,7 +25,7 @@ conda activate tangostar
 pip install -r gpu_requirements.txt --extra-index-url https://download.pytorch.org/whl/cu121
 
 # Or to install without gpu
-pip install torch==2.5.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install torch==2.5.0 --extra-index-url https://download.pytorch.org/whl/cpu
 pip install -r cpu_requirements.txt
 conda install typing_extensions networkx -y
 ```
