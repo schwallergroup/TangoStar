@@ -25,7 +25,8 @@ conda activate tangostar
 pip install -r gpu_requirements.txt --extra-index-url https://download.pytorch.org/whl/cu121
 
 # Or to install without gpu
-pip install torch==2.5.0 --extra-index-url https://download.pytorch.org/whl/cpu
+pip install torch==2.5.0 # on Mac without an Nvidia GPU
+# pip install torch==2.5.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu # on Linux (cpu-only)
 pip install -r cpu_requirements.txt
 conda install typing_extensions networkx -y
 ```
@@ -37,7 +38,7 @@ We have provided a setup_data.sh file in the main directory. Run it to download 
 ```bash
 sh setup_data.sh
 ```
-Once you have executed the above script skip straight to Section 3. Otherwise, you can download the files manually from the link below.
+Once you have executed the above script skip straight to Section 3. If there are issues with the script, you can download the files manually from the link below.
 
 Download the pre-trained model weights [at this link](https://figshare.com/articles/preprint/25956076). Unzip the contents of `desp_data.zip` into `/desp/data/`. 
 
