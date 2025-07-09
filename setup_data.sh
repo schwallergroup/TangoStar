@@ -5,7 +5,7 @@
 set -e  # Exit on any error
 
 # Configuration
-DATA_DIR="desp/datadata"
+DATA_DIR="desp/data"
 
 echo "Starting download and extraction process..."
 
