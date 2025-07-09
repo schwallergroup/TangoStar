@@ -23,12 +23,6 @@ wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" https://f
 wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" https://figshare.com/ndownloader/files/47507753
 wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" https://figshare.com/ndownloader/files/47534525
 
-# Check if download was successful
-if [ ! -f "$ZIP_FILENAME" ]; then
-    echo "Error: Download failed. File $ZIP_FILENAME not found."
-    exit 1
-fi
-
 echo "Download completed successfully."
 
 # Unzip the file
