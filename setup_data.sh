@@ -5,9 +5,7 @@
 set -e  # Exit on any error
 
 # Configuration
-DATA_DIR="desp/data"
-DOWNLOAD_URL="https://figshare.com/ndownloader/files/46831312"  # Replace with actual URL
-ZIP_FILENAME="downloaded-file.zip"
+DATA_DIR="desp/datadata"
 
 echo "Starting download and extraction process..."
 
@@ -20,7 +18,10 @@ cd "$DATA_DIR"
 
 # Download the file using wget
 echo "Downloading file from: $DOWNLOAD_URL"
-wget -O "$ZIP_FILENAME" "$DOWNLOAD_URL"
+
+wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" https://figshare.com/ndownloader/files/46831312
+wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" https://figshare.com/ndownloader/files/47507753
+wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" https://figshare.com/ndownloader/files/47534525
 
 # Check if download was successful
 if [ ! -f "$ZIP_FILENAME" ]; then
